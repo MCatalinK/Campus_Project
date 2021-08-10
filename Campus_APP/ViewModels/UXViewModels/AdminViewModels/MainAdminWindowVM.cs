@@ -40,8 +40,8 @@ namespace Campus_APP.ViewModels.UXViewModels.AdminViewModels
                     campusView.ShowDialog();
                     break;
                 case "3":
-                    break;
-                case "4":
+                    StudentView studentView = new StudentView();
+                    studentView.ShowDialog();
                     break;
             }
         }

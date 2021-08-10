@@ -88,6 +88,25 @@ namespace Campus_APP.Models.Actions
             }
             return result;
         }
+        public ObservableCollection<CampusRoomVM> GetRoomsAvailableForCampus(int id)
+        {
+            ObservableCollection<CampusRoomVM> result = new ObservableCollection<CampusRoomVM>();
+            var list = _ctx.CampusRooms.Where(p => p.idCampus == id && p.isOccupied==false).ToList();
+            if (list is null)
+                return null;
+            foreach (var item in list)
+            {
+                result.Add(new CampusRoomVM()
+                {
+                    Id = item.id,
+                    NoRoom = item.noRoom,
+                    IsOccupied = item.isOccupied,
+                    IdCampus = item.idCampus
+                });
+            }
+            return result;
+        }
+
         public CampusRoomVM GetRoomById(int id)
         {
             var room = _ctx.CampusRooms.Where(p => p.id == id).FirstOrDefault();

@@ -1,10 +1,27 @@
 ﻿using Campus_APP.Helpers;
+using Campus_APP.Models.Actions;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Campus_APP.ViewModels
 {
     class StudentVM:BaseVM
     {
+        private readonly StudentActions _studAct;
+        private readonly StudentTypeActions _typeAct;
+        private readonly RoomActions _roomAct;
+        private readonly UniversityActions _uniAct;
+        private readonly CampusActions _campusAct;
+        
+        public StudentVM()
+        {
+            _studAct = new StudentActions(this);
+            _typeAct = new StudentTypeActions();
+            _roomAct = new RoomActions(null);
+            _uniAct = new UniversityActions(null);
+            _campusAct = new CampusActions(null);
+        }
+
         #region DataMembers
         private int _id;
         private string _firstName;
@@ -16,7 +33,9 @@ namespace Campus_APP.ViewModels
         private int _idUni;
         private int _idUser;
 
+        private ObservableCollection<StudentVM> _allStudents;
         private CampusRoomVM _campusRoom;
+        private ObservableCollection<CampusRoomVM> _allRooms;
         private UniversityVM _university;
         private ObservableCollection<UniversityVM> _allUniversities;
         private CampusVM _campus;
@@ -104,16 +123,42 @@ namespace Campus_APP.ViewModels
                 NotifyPropertyChanged("IdUser");
             }
         }   
+        public ObservableCollection<StudentVM> AllStudents
+        {
+            get {
+                _allStudents = _studAct.AllStudents();
+                return _allStudents; }
+            set
+            {
+                _allStudents = value;
+                NotifyPropertyChanged("AllStudents");
+            }
+        }
         public CampusRoomVM CampusRoom
         {
-            get { return _campusRoom; }
+            get {
+                _campusRoom = _roomAct.GetRoomById(IdRoom);
+                return _campusRoom; }
             set { _campusRoom = value;
                 NotifyPropertyChanged("CampusRoom");
             }
         }
+        public ObservableCollection<CampusRoomVM> AllRooms
+        {
+            get {
+                _allRooms = _roomAct.GetRoomsAvailableForCampus(IdCampus);
+                return _allRooms; }
+            set
+            {
+                _allRooms = value;
+                NotifyPropertyChanged("AllRooms");
+            }
+        }
         public UniversityVM University
         {
-            get { return _university; }
+            get {
+                _university = _uniAct.GetUniversityById(IdUni); 
+                return _university; }
             set
             {
                 _university = value;
@@ -122,7 +167,9 @@ namespace Campus_APP.ViewModels
         }
         public ObservableCollection<UniversityVM> AllUniversities
         {
-            get { return _allUniversities; }
+            get {
+                _allUniversities = _uniAct.AllUniversities();
+                return _allUniversities; }
             set
             {
                 _allUniversities = value;
@@ -131,7 +178,9 @@ namespace Campus_APP.ViewModels
         }
         public CampusVM Campus
         {
-            get { return _campus; }
+            get {
+                _campus = _campusAct.GetCampusById(IdCampus);
+                return _campus; }
             set
             {
                 _campus = value;
@@ -142,12 +191,20 @@ namespace Campus_APP.ViewModels
         {
             get
             {
+                _allCampuses = _campusAct.GetCampusesByUni(IdUni);
                 return _allCampuses;
+            }
+            set
+            {
+                _allCampuses = value;
+                NotifyPropertyChanged("AllCampuses");
             }
         }
         public StudentTypeVM StudentType
         {
-            get { return _studentType; }
+            get {
+                _studentType = _typeAct.GetType(IdType);
+                return _studentType; }
             set
             {
                 _studentType = value;
@@ -156,8 +213,66 @@ namespace Campus_APP.ViewModels
         }
         public ObservableCollection<StudentTypeVM> AllStudentTypes
         {
-            get { return _allStudentTypes; }
+            get {
+                _allStudentTypes = _typeAct.AllTypes();
+                return _allStudentTypes; }
+            set
+            {
+                _allStudentTypes = value;
+                NotifyPropertyChanged("AllStudentTypes");
+            }
         }
         #endregion
+
+
+        #region Commands
+        private ICommand addCommand;
+        public ICommand AddCommand
+        {
+            get
+            {
+                if (addCommand == null)
+                {
+                    addCommand = new RelayCommand(_studAct.AddMethod);
+                }
+                return addCommand;
+            }
+        }
+
+        private ICommand deleteCommand;
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                if (deleteCommand == null)
+                {
+                    deleteCommand = new RelayCommand(_studAct.DeleteMethod);
+                }
+                return deleteCommand;
+            }
+        }
+
+        private ICommand updateCommand;
+        public ICommand UpdateCommand
+        {
+            get
+            {
+                if (updateCommand == null)
+                {
+                    updateCommand = new RelayCommand(_studAct.UpdateMethod);
+                }
+                return updateCommand;
+            }
+        }
+        #endregion
+
+        public void UniChanged(int id)
+        {
+            AllCampuses = _campusAct.GetCampusesByUni(id);
+        }
+        public void CampusChanged(int id)
+        {
+            AllRooms = _roomAct.GetRoomsAvailableForCampus(id);
+        }
     }
 }

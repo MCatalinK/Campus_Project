@@ -64,12 +64,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\UpdateStudentConvert.cs" />
+    <Compile Include="Converters\StudentConvert.cs" />
     <Compile Include="Converters\CampusConvert.cs" />
     <Compile Include="Converters\UserConvert.cs" />
     <Compile Include="Helpers\Enums\StudentTypeEnum.cs" />
     <Compile Include="Helpers\Enums\UserRolesEnum.cs" />
     <Compile Include="Models\Actions\CampusActions.cs" />
     <Compile Include="Models\Actions\RoomActions.cs" />
+    <Compile Include="Models\Actions\StudentActions.cs" />
     <Compile Include="Models\Actions\StudentTypeActions.cs" />
     <Compile Include="Models\Actions\UniversityActions.cs" />
     <Compile Include="Models\Actions\UserActions.cs" />

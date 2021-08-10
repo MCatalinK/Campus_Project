@@ -4,15 +4,110 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Campus_APP.ViewModels"
+        xmlns:localConverter="clr-namespace:Campus_APP.Converters"
         mc:Ignorable="d"
         Background="Coral"
-        Title="StudentView" Height="450" Width="800">
+        Title="StudentView" Height="650" Width="1000">
     <Window.DataContext>
         <local:StudentVM/>
     </Window.DataContext>
     <Grid>
+        <Grid.Resources>
+            <localConverter:StudentConvert x:Key="studentConvert"/>
+            <localConverter:UpdateStudentConvert x:Key="updateConvert"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
-            
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="4" Content="Student Menu" FontSize="38" FontWeight="DemiBold" FontStyle="Oblique" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Label Content="FirstName" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18" FontWeight="SemiBold" Width="100"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtFirst" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,10,0"
+                 Text="{Binding ElementName=studentGrid,Path=SelectedItem.FirstName,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Content="LastName" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18" FontWeight="SemiBold" Width="100"/>
+        <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtLast" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,10,0"
+                 Text="{Binding ElementName=studentGrid,Path=SelectedItem.LastName,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Content="SSN" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left"  FontSize="18" FontWeight="SemiBold" Width="100"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtSSN" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,10,0"
+                 Text="{Binding ElementName=studentGrid,Path=SelectedItem.SSN,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Content="Type" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left"  FontSize="18" FontWeight="SemiBold" Width="100"/>
+        <ComboBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,10,0" x:Name="cbType"
+                  ItemsSource="{Binding AllStudentTypes}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"
+                  SelectedValuePath="Id" SelectedValue="{Binding IdType}" />
+
+        <Label Content="University" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"  FontSize="18" FontWeight="SemiBold" Width="100"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,10,0" x:Name="cbUni"
+                  ItemsSource="{Binding AllUniversities}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"
+                  SelectedValuePath="Id" SelectedValue="{Binding IdUni}" SelectionChanged="cbUni_SelectionChanged"/>
+
+        <Label Content="Campus" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left"  FontSize="18" FontWeight="SemiBold" Width="100"/>
+        <ComboBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,10,0" x:Name="cbCampus"
+                  ItemsSource="{Binding AllCampuses}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Tax"
+                  SelectedValuePath="Id" SelectedValue="{Binding IdCampus}" SelectionChanged="cbCampus_SelectionChanged"/>
+
+        <Label Content="Room" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"  FontSize="18" FontWeight="SemiBold" Width="100"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,10,0" x:Name="cbRoom"
+                  ItemsSource="{Binding AllRooms}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="NoRoom"
+                  SelectedValuePath="Id" SelectedValue="{Binding IdRoom}"/>
+
+        <Button Grid.Row="6" Grid.Column="0" Content="Add" Width="75" Command="{Binding AddCommand}">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource studentConvert}">
+                    <Binding ElementName="txtFirst" Path="Text"/>
+                    <Binding ElementName="txtLast" Path="Text"/>
+                    <Binding ElementName="txtSSN" Path="Text"/>
+                    <Binding ElementName="cbType" Path="SelectedValue"/>
+                    <Binding ElementName="cbUni" Path="SelectedValue"/>
+                    <Binding ElementName="cbCampus" Path="SelectedValue"/>
+                    <Binding ElementName="cbRoom" Path="SelectedValue"/>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
+        
+        <Button Grid.Row="6" Grid.Column="1" Content="Delete" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75" Height="40" Margin="10,0,0,0"
+                Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=studentGrid,Path=SelectedItem,UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <Button Grid.Row="6" Grid.Column="1" Content="Update" VerticalAlignment="Center" HorizontalAlignment="Center" Width="75" Height="40" Margin="0,0,0,0"
+                Command="{Binding UpdateCommand}">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource updateConvert}">
+                    <Binding ElementName="txtFirst" Path="Text"/>
+                    <Binding ElementName="txtLast" Path="Text"/>
+                    <Binding ElementName="cbType" Path="SelectedValue"/>
+                    <Binding ElementName="cbCampus" Path="SelectedValue"/>
+                    <Binding ElementName="cbRoom" Path="SelectedValue"/>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
+        
+        <DataGrid x:Name="studentGrid" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" AutoGenerateColumns="False" VerticalScrollBarVisibility="Visible" Margin="20,20" ItemsSource="{Binding AllStudents}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="First Name" Width="1*" Binding="{Binding FirstName}"/>
+                <DataGridTextColumn Header="Last Name" Width="1*" Binding="{Binding LastName}"/>
+                <DataGridTextColumn Header="SSN" Width="1*" Binding="{Binding SSN}"/>
+                <DataGridTextColumn Header="Type" Width="1*" Binding="{Binding StudentType.Name}"/>
+                <DataGridTextColumn Header="University" Width="1*" Binding="{Binding University.Name}"/>
+                <DataGridTextColumn Header="Campus" Width="60" Binding="{Binding Campus.Id}"/>
+                <DataGridTextColumn Header="Tax" Width="100" Binding="{Binding Campus.Tax}"/>
+                <DataGridTextColumn Header="Room" Width="60" Binding="{Binding CampusRoom.NoRoom}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Campus_APP.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,18 @@ namespace Campus_APP.Views.AdminViews
         {
             InitializeComponent();
         }
+
+        private void cbUni_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int id = (cbUni.SelectedItem as UniversityVM).Id;
+            (DataContext as StudentVM).UniChanged(id);
+        }
+
+        private void cbCampus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int id = (cbCampus.SelectedItem as CampusVM).Id;
+            (DataContext as StudentVM).CampusChanged(id);
+        }
+
     }
 }
