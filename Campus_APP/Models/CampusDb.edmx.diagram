@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e565e115449c4e099222727535ac8e4d" Name="Diagram1">
+        <EntityTypeShape EntityType="CampusDbModel.Campu" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CampusDbModel.CampusRoom" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CampusDbModel.Invoice" Width="1.5" PointX="9.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="CampusDbModel.Student" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CampusDbModel.StudentType" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CampusDbModel.University" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CampusDbModel.User" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CampusDbModel.UserRole" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <AssociationConnector Association="CampusDbModel.FK__Campus__idUni__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="CampusDbModel.FK__CampusRoo__idCam__2E1BDC42" ManuallyRouted="false" />
+        <AssociationConnector Association="CampusDbModel.FK__Student__idCampu__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="CampusDbModel.FK__Student__idRoom__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="CampusDbModel.FK__Invoice__idStude__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="CampusDbModel.FK__Student__idType__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="CampusDbModel.FK__Student__idUni__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="CampusDbModel.FK__Student__idUser__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="CampusDbModel.FK__User__idRole__267ABA7A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
