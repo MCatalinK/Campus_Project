@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Campus_APP.ViewModels
 {
-    class UniversityVM:BaseVM
+    public class UniversityVM:BaseVM
     {
         private readonly UniversityActions _uniAct;
 

@@ -2,7 +2,7 @@
 
 namespace Campus_APP.ViewModels
 {
-    class StudentTypeVM:BaseVM
+    public class StudentTypeVM:BaseVM
     {
         #region DataMembers
         private int _id;

@@ -107,8 +107,10 @@ namespace Campus_APP.Models.Actions
             return result;
         }
 
-        public CampusRoomVM GetRoomById(int id)
+        public CampusRoomVM GetRoomById(int? id)
         {
+            if (id is null)
+                return null;
             var room = _ctx.CampusRooms.Where(p => p.id == id).FirstOrDefault();
             if (room is null) return null;
             return new CampusRoomVM()

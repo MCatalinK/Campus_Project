@@ -1,17 +1,22 @@
 ﻿using Campus_APP.Helpers;
-using Campus_APP.Views.AdminViews;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using Campus_APP.Models.Actions;
+using Campus_APP.Views;
 using System.Windows.Input;
 
-namespace Campus_APP.ViewModels.UXViewModels.AdminViewModels
+namespace Campus_APP.ViewModels.UXViewModels
 {
-    class MainAdminWindowVM:BaseVM
+    class MainWindowVM:BaseVM
     {
+
+        private readonly StudentTypeActions _typeAct;
+
+        public MainWindowVM()
+        {
+            _typeAct = new StudentTypeActions();
+            _typeAct.SetTypes();
+        }
+
+
         private ICommand openWindowCommand;
         public ICommand OpenWindowCommand
         {
@@ -27,7 +32,6 @@ namespace Campus_APP.ViewModels.UXViewModels.AdminViewModels
 
         public void OpenWindow(object obj)
         {
-
             string option = obj as string;
             switch (option)
             {
@@ -42,6 +46,10 @@ namespace Campus_APP.ViewModels.UXViewModels.AdminViewModels
                 case "3":
                     StudentView studentView = new StudentView();
                     studentView.ShowDialog();
+                    break;
+                case "4":
+                    InvoiceView invoiceView = new InvoiceView();
+                    invoiceView.ShowDialog();
                     break;
             }
         }

@@ -12,16 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Campus_APP.Views.CommonViews
+namespace Campus_APP.Views
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for InvoiceView.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class InvoiceView : Window
     {
-        public LoginView()
+        public InvoiceView()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            invoiceGrid.Visibility = Visibility.Visible;
         }
     }
 }

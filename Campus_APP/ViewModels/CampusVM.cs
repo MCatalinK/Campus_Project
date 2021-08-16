@@ -1,13 +1,13 @@
 ﻿using Campus_APP.Helpers;
 using Campus_APP.Models.Actions;
-using Campus_APP.Views.AdminViews;
+using Campus_APP.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Campus_APP.ViewModels
 {
-    class CampusVM : BaseVM
+    public class CampusVM : BaseVM
     {
         private readonly UniversityActions _uniAct;
         private readonly CampusActions _campAct;

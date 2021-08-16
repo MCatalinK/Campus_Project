@@ -13,17 +13,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Campus_APP.Views.AdminViews
+namespace Campus_APP.Views
 {
     /// <summary>
-    /// Interaction logic for RoomsView.xaml
+    /// Interaction logic for CampusView.xaml
     /// </summary>
-    public partial class RoomsView : Window
+    public partial class CampusView : Window
     {
-        public RoomsView(CampusRoomVM room)
+        public CampusView()
         {
             InitializeComponent();
-            this.DataContext = room;
+        }
+
+        private void cbUni_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (cbUni.SelectedItem as UniversityVM).Id;
+            (DataContext as CampusVM).Load(item);
         }
     }
 }

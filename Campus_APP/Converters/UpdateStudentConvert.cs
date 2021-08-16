@@ -8,23 +8,26 @@ namespace Campus_APP.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (String.IsNullOrEmpty(values[0].ToString())
+            if (values[0] is null
                 || String.IsNullOrEmpty(values[1].ToString())
                 || String.IsNullOrEmpty(values[2].ToString())
                 || String.IsNullOrEmpty(values[3].ToString())
-                || String.IsNullOrEmpty(values[4].ToString()))
+                || String.IsNullOrEmpty(values[4].ToString())
+                || String.IsNullOrEmpty(values[5].ToString()))
             {
                 return null;
             }
             else
             {
+                var student = values[0] as StudentVM;
                 return new StudentVM()
                 {
-                    FirstName = values[0].ToString(),
-                    LastName=values[1].ToString(),
-                    IdType=Int32.Parse(values[2].ToString()),
-                    IdCampus = Int32.Parse(values[3].ToString()),
-                    IdRoom = Int32.Parse(values[4].ToString())
+                    Id=(int)student.Id,
+                    FirstName = values[1].ToString(),
+                    LastName=values[2].ToString(),
+                    IdType=Int32.Parse(values[3].ToString()),
+                    IdCampus = Int32.Parse(values[4].ToString()),
+                    IdRoom = Int32.Parse(values[5].ToString())
                 };
             }
         }

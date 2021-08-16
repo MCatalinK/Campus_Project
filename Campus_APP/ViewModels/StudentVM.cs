@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Campus_APP.ViewModels
 {
-    class StudentVM:BaseVM
+    public class StudentVM:BaseVM
     {
         private readonly StudentActions _studAct;
         private readonly StudentTypeActions _typeAct;
@@ -27,11 +27,11 @@ namespace Campus_APP.ViewModels
         private string _firstName;
         private string _lastName;
         private string _ssn;
+        private bool _isExmatriculated;
         private int _idCampus;
-        private int _idRoom;
+        private int? _idRoom;
         private int _idType;
         private int _idUni;
-        private int _idUser;
 
         private ObservableCollection<StudentVM> _allStudents;
         private CampusRoomVM _campusRoom;
@@ -78,6 +78,15 @@ namespace Campus_APP.ViewModels
                 NotifyPropertyChanged("SSN");
             }
         }
+        public bool IsExmatriculated
+        {
+            get { return _isExmatriculated; }
+            set
+            {
+                _isExmatriculated = value;
+                NotifyPropertyChanged("IsExmatriculated");
+            }
+        }
         public int IdCampus
         {
             get { return _idCampus; }
@@ -87,7 +96,7 @@ namespace Campus_APP.ViewModels
                 NotifyPropertyChanged("IdCampus");
             }
         }
-        public int IdRoom
+        public int? IdRoom
         {
             get { return _idRoom; }
             set
@@ -114,15 +123,7 @@ namespace Campus_APP.ViewModels
                 NotifyPropertyChanged("IdUni");
             }
         }
-        public int IdUser
-        {
-            get { return _idUser; }
-            set
-            {
-                _idUser = value;
-                NotifyPropertyChanged("IdUser");
-            }
-        }   
+
         public ObservableCollection<StudentVM> AllStudents
         {
             get {

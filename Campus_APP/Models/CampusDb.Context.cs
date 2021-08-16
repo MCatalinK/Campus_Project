@@ -31,7 +31,5 @@ namespace Campus_APP.Models
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<StudentType> StudentTypes { get; set; }
         public virtual DbSet<University> Universities { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserRole> UserRoles { get; set; }
     }
 }

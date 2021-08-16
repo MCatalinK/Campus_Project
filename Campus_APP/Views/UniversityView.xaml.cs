@@ -1,5 +1,4 @@
-﻿using Campus_APP.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,22 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Campus_APP.Views.AdminViews
+namespace Campus_APP.Views
 {
     /// <summary>
-    /// Interaction logic for CampusView.xaml
+    /// Interaction logic for UniversityView.xaml
     /// </summary>
-    public partial class CampusView : Window
+    public partial class UniversityView : Window
     {
-        public CampusView()
+        public UniversityView()
         {
             InitializeComponent();
-        }
-
-        private void cbUni_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var item = (cbUni.SelectedItem as UniversityVM).Id;
-            (DataContext as CampusVM).Load(item);
         }
     }
 }

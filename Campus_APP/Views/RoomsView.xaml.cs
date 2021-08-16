@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Campus_APP.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +13,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Campus_APP.Views.AdminViews
+namespace Campus_APP.Views
 {
     /// <summary>
-    /// Interaction logic for UniversityView.xaml
+    /// Interaction logic for RoomsView.xaml
     /// </summary>
-    public partial class UniversityView : Window
+    public partial class RoomsView : Window
     {
-        public UniversityView()
+        public RoomsView(CampusRoomVM room)
         {
             InitializeComponent();
+            this.DataContext = room;
         }
     }
 }

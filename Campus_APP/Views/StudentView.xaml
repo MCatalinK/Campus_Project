@@ -1,4 +1,4 @@
-﻿<Window x:Class="Campus_APP.Views.AdminViews.StudentView"
+﻿<Window x:Class="Campus_APP.Views.StudentView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -88,6 +88,7 @@
                 Command="{Binding UpdateCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource updateConvert}">
+                    <Binding ElementName="studentGrid" Path="SelectedItem"/>
                     <Binding ElementName="txtFirst" Path="Text"/>
                     <Binding ElementName="txtLast" Path="Text"/>
                     <Binding ElementName="cbType" Path="SelectedValue"/>
@@ -106,6 +107,7 @@
                 <DataGridTextColumn Header="University" Width="1*" Binding="{Binding University.Name}"/>
                 <DataGridTextColumn Header="Campus" Width="60" Binding="{Binding Campus.Id}"/>
                 <DataGridTextColumn Header="Tax" Width="100" Binding="{Binding Campus.Tax}"/>
+                <DataGridTextColumn Header="IsExmatriculated" Width="100" Binding="{Binding IsExmatriculated}"/>
                 <DataGridTextColumn Header="Room" Width="60" Binding="{Binding CampusRoom.NoRoom}"/>
             </DataGrid.Columns>
         </DataGrid>

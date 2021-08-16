@@ -15,8 +15,10 @@ namespace Campus_APP.Models
     public partial class Invoice
     {
         public int id { get; set; }
-        public System.DateTime emissionDate { get; set; }
+        public System.DateTime deadendDate { get; set; }
+        public Nullable<System.DateTime> datePayed { get; set; }
         public decimal total { get; set; }
+        public bool isPayed { get; set; }
         public int idStudent { get; set; }
     
         public virtual Student Student { get; set; }

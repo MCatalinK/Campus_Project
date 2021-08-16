@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Campus_APP.Views.AdminViews
+namespace Campus_APP.Views
 {
     /// <summary>
     /// Interaction logic for MainAdminView.xaml

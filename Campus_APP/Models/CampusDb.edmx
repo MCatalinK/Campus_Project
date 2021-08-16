@@ -27,8 +27,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="emissionDate" Type="date" Nullable="false" />
+          <Property Name="deadendDate" Type="date" Nullable="false" />
+          <Property Name="datePayed" Type="date" />
           <Property Name="total" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="isPayed" Type="bit" Nullable="false" />
           <Property Name="idStudent" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Student">
@@ -39,11 +41,11 @@
           <Property Name="firstName" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="lastName" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="ssn" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="isExmatriculated" Type="bit" Nullable="false" />
           <Property Name="idCampus" Type="int" Nullable="false" />
-          <Property Name="idRoom" Type="int" Nullable="false" />
+          <Property Name="idRoom" Type="int" />
           <Property Name="idType" Type="int" Nullable="false" />
           <Property Name="idUni" Type="int" Nullable="false" />
-          <Property Name="idUser" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StudentType">
           <Key>
@@ -59,23 +61,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="username" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="idRole" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="UserRole">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="8" />
-        </EntityType>
-        <Association Name="FK__Campus__idUni__2B3F6F97">
+        <Association Name="FK__Campus__idUni__267ABA7A">
           <End Role="University" Type="Self.University" Multiplicity="1" />
           <End Role="Campus" Type="Self.Campus" Multiplicity="*" />
           <ReferentialConstraint>
@@ -87,7 +73,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CampusRoo__idCam__2E1BDC42">
+        <Association Name="FK__CampusRoo__idCam__29572725">
           <End Role="Campus" Type="Self.Campus" Multiplicity="1" />
           <End Role="CampusRoom" Type="Self.CampusRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -99,7 +85,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Invoice__idStude__398D8EEE">
+        <Association Name="FK__Invoice__idStude__33D4B598">
           <End Role="Student" Type="Self.Student" Multiplicity="1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -111,7 +97,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idCampu__32E0915F">
+        <Association Name="FK__Student__idCampu__2E1BDC42">
           <End Role="Campus" Type="Self.Campus" Multiplicity="1" />
           <End Role="Student" Type="Self.Student" Multiplicity="*" />
           <ReferentialConstraint>
@@ -123,8 +109,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idRoom__33D4B598">
-          <End Role="CampusRoom" Type="Self.CampusRoom" Multiplicity="1" />
+        <Association Name="FK__Student__idRoom__2F10007B">
+          <End Role="CampusRoom" Type="Self.CampusRoom" Multiplicity="0..1" />
           <End Role="Student" Type="Self.Student" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CampusRoom">
@@ -135,7 +121,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idType__34C8D9D1">
+        <Association Name="FK__Student__idType__300424B4">
           <End Role="StudentType" Type="Self.StudentType" Multiplicity="1" />
           <End Role="Student" Type="Self.Student" Multiplicity="*" />
           <ReferentialConstraint>
@@ -147,7 +133,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idUni__35BCFE0A">
+        <Association Name="FK__Student__idUni__30F848ED">
           <End Role="University" Type="Self.University" Multiplicity="1" />
           <End Role="Student" Type="Self.Student" Multiplicity="*" />
           <ReferentialConstraint>
@@ -159,30 +145,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idUser__36B12243">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Student" Type="Self.Student" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Student">
-              <PropertyRef Name="idUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__User__idRole__267ABA7A">
-          <End Role="UserRole" Type="Self.UserRole" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserRole">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="idRole" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CampusDbModelStoreContainer">
           <EntitySet Name="Campus" EntityType="Self.Campus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampusRoom" EntityType="Self.CampusRoom" Schema="dbo" store:Type="Tables" />
@@ -190,43 +152,33 @@
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentType" EntityType="Self.StudentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="University" EntityType="Self.University" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Campus__idUni__2B3F6F97" Association="Self.FK__Campus__idUni__2B3F6F97">
+          <AssociationSet Name="FK__Campus__idUni__267ABA7A" Association="Self.FK__Campus__idUni__267ABA7A">
             <End Role="University" EntitySet="University" />
             <End Role="Campus" EntitySet="Campus" />
           </AssociationSet>
-          <AssociationSet Name="FK__CampusRoo__idCam__2E1BDC42" Association="Self.FK__CampusRoo__idCam__2E1BDC42">
+          <AssociationSet Name="FK__CampusRoo__idCam__29572725" Association="Self.FK__CampusRoo__idCam__29572725">
             <End Role="Campus" EntitySet="Campus" />
             <End Role="CampusRoom" EntitySet="CampusRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__Invoice__idStude__398D8EEE" Association="Self.FK__Invoice__idStude__398D8EEE">
+          <AssociationSet Name="FK__Invoice__idStude__33D4B598" Association="Self.FK__Invoice__idStude__33D4B598">
             <End Role="Student" EntitySet="Student" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
-          <AssociationSet Name="FK__Student__idCampu__32E0915F" Association="Self.FK__Student__idCampu__32E0915F">
+          <AssociationSet Name="FK__Student__idCampu__2E1BDC42" Association="Self.FK__Student__idCampu__2E1BDC42">
             <End Role="Campus" EntitySet="Campus" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
-          <AssociationSet Name="FK__Student__idRoom__33D4B598" Association="Self.FK__Student__idRoom__33D4B598">
+          <AssociationSet Name="FK__Student__idRoom__2F10007B" Association="Self.FK__Student__idRoom__2F10007B">
             <End Role="CampusRoom" EntitySet="CampusRoom" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
-          <AssociationSet Name="FK__Student__idType__34C8D9D1" Association="Self.FK__Student__idType__34C8D9D1">
+          <AssociationSet Name="FK__Student__idType__300424B4" Association="Self.FK__Student__idType__300424B4">
             <End Role="StudentType" EntitySet="StudentType" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
-          <AssociationSet Name="FK__Student__idUni__35BCFE0A" Association="Self.FK__Student__idUni__35BCFE0A">
+          <AssociationSet Name="FK__Student__idUni__30F848ED" Association="Self.FK__Student__idUni__30F848ED">
             <End Role="University" EntitySet="University" />
             <End Role="Student" EntitySet="Student" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Student__idUser__36B12243" Association="Self.FK__Student__idUser__36B12243">
-            <End Role="User" EntitySet="User" />
-            <End Role="Student" EntitySet="Student" />
-          </AssociationSet>
-          <AssociationSet Name="FK__User__idRole__267ABA7A" Association="Self.FK__User__idRole__267ABA7A">
-            <End Role="UserRole" EntitySet="UserRole" />
-            <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -241,9 +193,9 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="tax" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="idUni" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="University" Relationship="Self.FK__Campus__idUni__2B3F6F97" FromRole="Campus" ToRole="University" />
-          <NavigationProperty Name="CampusRooms" Relationship="Self.FK__CampusRoo__idCam__2E1BDC42" FromRole="Campus" ToRole="CampusRoom" />
-          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idCampu__32E0915F" FromRole="Campus" ToRole="Student" />
+          <NavigationProperty Name="University" Relationship="Self.FK__Campus__idUni__267ABA7A" FromRole="Campus" ToRole="University" />
+          <NavigationProperty Name="CampusRooms" Relationship="Self.FK__CampusRoo__idCam__29572725" FromRole="Campus" ToRole="CampusRoom" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idCampu__2E1BDC42" FromRole="Campus" ToRole="Student" />
         </EntityType>
         <EntityType Name="CampusRoom">
           <Key>
@@ -253,18 +205,20 @@
           <Property Name="noRoom" Type="Int32" Nullable="false" />
           <Property Name="isOccupied" Type="Boolean" Nullable="false" />
           <Property Name="idCampus" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Campu" Relationship="Self.FK__CampusRoo__idCam__2E1BDC42" FromRole="CampusRoom" ToRole="Campus" />
-          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idRoom__33D4B598" FromRole="CampusRoom" ToRole="Student" />
+          <NavigationProperty Name="Campu" Relationship="Self.FK__CampusRoo__idCam__29572725" FromRole="CampusRoom" ToRole="Campus" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idRoom__2F10007B" FromRole="CampusRoom" ToRole="Student" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="emissionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="deadendDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="datePayed" Type="DateTime" Precision="0" />
           <Property Name="total" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="isPayed" Type="Boolean" Nullable="false" />
           <Property Name="idStudent" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Student" Relationship="Self.FK__Invoice__idStude__398D8EEE" FromRole="Invoice" ToRole="Student" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__Invoice__idStude__33D4B598" FromRole="Invoice" ToRole="Student" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -274,17 +228,16 @@
           <Property Name="firstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="lastName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ssn" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isExmatriculated" Type="Boolean" Nullable="false" />
           <Property Name="idCampus" Type="Int32" Nullable="false" />
-          <Property Name="idRoom" Type="Int32" Nullable="false" />
+          <Property Name="idRoom" Type="Int32" />
           <Property Name="idType" Type="Int32" Nullable="false" />
           <Property Name="idUni" Type="Int32" Nullable="false" />
-          <Property Name="idUser" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Campu" Relationship="Self.FK__Student__idCampu__32E0915F" FromRole="Student" ToRole="Campus" />
-          <NavigationProperty Name="CampusRoom" Relationship="Self.FK__Student__idRoom__33D4B598" FromRole="Student" ToRole="CampusRoom" />
-          <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoice__idStude__398D8EEE" FromRole="Student" ToRole="Invoice" />
-          <NavigationProperty Name="StudentType" Relationship="Self.FK__Student__idType__34C8D9D1" FromRole="Student" ToRole="StudentType" />
-          <NavigationProperty Name="University" Relationship="Self.FK__Student__idUni__35BCFE0A" FromRole="Student" ToRole="University" />
-          <NavigationProperty Name="User" Relationship="Self.FK__Student__idUser__36B12243" FromRole="Student" ToRole="User" />
+          <NavigationProperty Name="Campu" Relationship="Self.FK__Student__idCampu__2E1BDC42" FromRole="Student" ToRole="Campus" />
+          <NavigationProperty Name="CampusRoom" Relationship="Self.FK__Student__idRoom__2F10007B" FromRole="Student" ToRole="CampusRoom" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoice__idStude__33D4B598" FromRole="Student" ToRole="Invoice" />
+          <NavigationProperty Name="StudentType" Relationship="Self.FK__Student__idType__300424B4" FromRole="Student" ToRole="StudentType" />
+          <NavigationProperty Name="University" Relationship="Self.FK__Student__idUni__30F848ED" FromRole="Student" ToRole="University" />
         </EntityType>
         <EntityType Name="StudentType">
           <Key>
@@ -292,7 +245,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idType__34C8D9D1" FromRole="StudentType" ToRole="Student" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idType__300424B4" FromRole="StudentType" ToRole="Student" />
         </EntityType>
         <EntityType Name="University">
           <Key>
@@ -300,29 +253,10 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Campus" Relationship="Self.FK__Campus__idUni__2B3F6F97" FromRole="University" ToRole="Campus" />
-          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idUni__35BCFE0A" FromRole="University" ToRole="Student" />
+          <NavigationProperty Name="Campus" Relationship="Self.FK__Campus__idUni__267ABA7A" FromRole="University" ToRole="Campus" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idUni__30F848ED" FromRole="University" ToRole="Student" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="idRole" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Students" Relationship="Self.FK__Student__idUser__36B12243" FromRole="User" ToRole="Student" />
-          <NavigationProperty Name="UserRole" Relationship="Self.FK__User__idRole__267ABA7A" FromRole="User" ToRole="UserRole" />
-        </EntityType>
-        <EntityType Name="UserRole">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__User__idRole__267ABA7A" FromRole="UserRole" ToRole="User" />
-        </EntityType>
-        <Association Name="FK__Campus__idUni__2B3F6F97">
+        <Association Name="FK__Campus__idUni__267ABA7A">
           <End Role="University" Type="Self.University" Multiplicity="1" />
           <End Role="Campus" Type="Self.Campu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -334,7 +268,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CampusRoo__idCam__2E1BDC42">
+        <Association Name="FK__CampusRoo__idCam__29572725">
           <End Role="Campus" Type="Self.Campu" Multiplicity="1" />
           <End Role="CampusRoom" Type="Self.CampusRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -346,7 +280,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idCampu__32E0915F">
+        <Association Name="FK__Student__idCampu__2E1BDC42">
           <End Role="Campus" Type="Self.Campu" Multiplicity="1" />
           <End Role="Student" Type="Self.Student" Multiplicity="*" />
           <ReferentialConstraint>
@@ -358,8 +292,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idRoom__33D4B598">
-          <End Role="CampusRoom" Type="Self.CampusRoom" Multiplicity="1" />
+        <Association Name="FK__Student__idRoom__2F10007B">
+          <End Role="CampusRoom" Type="Self.CampusRoom" Multiplicity="0..1" />
           <End Role="Student" Type="Self.Student" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CampusRoom">
@@ -370,7 +304,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Invoice__idStude__398D8EEE">
+        <Association Name="FK__Invoice__idStude__33D4B598">
           <End Role="Student" Type="Self.Student" Multiplicity="1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -382,7 +316,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idType__34C8D9D1">
+        <Association Name="FK__Student__idType__300424B4">
           <End Role="StudentType" Type="Self.StudentType" Multiplicity="1" />
           <End Role="Student" Type="Self.Student" Multiplicity="*" />
           <ReferentialConstraint>
@@ -394,7 +328,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idUni__35BCFE0A">
+        <Association Name="FK__Student__idUni__30F848ED">
           <End Role="University" Type="Self.University" Multiplicity="1" />
           <End Role="Student" Type="Self.Student" Multiplicity="*" />
           <ReferentialConstraint>
@@ -406,30 +340,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Student__idUser__36B12243">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Student" Type="Self.Student" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Student">
-              <PropertyRef Name="idUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__User__idRole__267ABA7A">
-          <End Role="UserRole" Type="Self.UserRole" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserRole">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="idRole" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CampusDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Campus" EntityType="Self.Campu" />
           <EntitySet Name="CampusRooms" EntityType="Self.CampusRoom" />
@@ -437,43 +347,33 @@
           <EntitySet Name="Students" EntityType="Self.Student" />
           <EntitySet Name="StudentTypes" EntityType="Self.StudentType" />
           <EntitySet Name="Universities" EntityType="Self.University" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
-          <AssociationSet Name="FK__Campus__idUni__2B3F6F97" Association="Self.FK__Campus__idUni__2B3F6F97">
+          <AssociationSet Name="FK__Campus__idUni__267ABA7A" Association="Self.FK__Campus__idUni__267ABA7A">
             <End Role="University" EntitySet="Universities" />
             <End Role="Campus" EntitySet="Campus" />
           </AssociationSet>
-          <AssociationSet Name="FK__CampusRoo__idCam__2E1BDC42" Association="Self.FK__CampusRoo__idCam__2E1BDC42">
+          <AssociationSet Name="FK__CampusRoo__idCam__29572725" Association="Self.FK__CampusRoo__idCam__29572725">
             <End Role="Campus" EntitySet="Campus" />
             <End Role="CampusRoom" EntitySet="CampusRooms" />
           </AssociationSet>
-          <AssociationSet Name="FK__Student__idCampu__32E0915F" Association="Self.FK__Student__idCampu__32E0915F">
+          <AssociationSet Name="FK__Student__idCampu__2E1BDC42" Association="Self.FK__Student__idCampu__2E1BDC42">
             <End Role="Campus" EntitySet="Campus" />
             <End Role="Student" EntitySet="Students" />
           </AssociationSet>
-          <AssociationSet Name="FK__Student__idRoom__33D4B598" Association="Self.FK__Student__idRoom__33D4B598">
+          <AssociationSet Name="FK__Student__idRoom__2F10007B" Association="Self.FK__Student__idRoom__2F10007B">
             <End Role="CampusRoom" EntitySet="CampusRooms" />
             <End Role="Student" EntitySet="Students" />
           </AssociationSet>
-          <AssociationSet Name="FK__Invoice__idStude__398D8EEE" Association="Self.FK__Invoice__idStude__398D8EEE">
+          <AssociationSet Name="FK__Invoice__idStude__33D4B598" Association="Self.FK__Invoice__idStude__33D4B598">
             <End Role="Student" EntitySet="Students" />
             <End Role="Invoice" EntitySet="Invoices" />
           </AssociationSet>
-          <AssociationSet Name="FK__Student__idType__34C8D9D1" Association="Self.FK__Student__idType__34C8D9D1">
+          <AssociationSet Name="FK__Student__idType__300424B4" Association="Self.FK__Student__idType__300424B4">
             <End Role="StudentType" EntitySet="StudentTypes" />
             <End Role="Student" EntitySet="Students" />
           </AssociationSet>
-          <AssociationSet Name="FK__Student__idUni__35BCFE0A" Association="Self.FK__Student__idUni__35BCFE0A">
+          <AssociationSet Name="FK__Student__idUni__30F848ED" Association="Self.FK__Student__idUni__30F848ED">
             <End Role="University" EntitySet="Universities" />
             <End Role="Student" EntitySet="Students" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Student__idUser__36B12243" Association="Self.FK__Student__idUser__36B12243">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Student" EntitySet="Students" />
-          </AssociationSet>
-          <AssociationSet Name="FK__User__idRole__267ABA7A" Association="Self.FK__User__idRole__267ABA7A">
-            <End Role="UserRole" EntitySet="UserRoles" />
-            <End Role="User" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -505,8 +405,10 @@
             <EntityTypeMapping TypeName="CampusDbModel.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="emissionDate" ColumnName="emissionDate" />
+                <ScalarProperty Name="deadendDate" ColumnName="deadendDate" />
+                <ScalarProperty Name="datePayed" ColumnName="datePayed" />
                 <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="isPayed" ColumnName="isPayed" />
                 <ScalarProperty Name="idStudent" ColumnName="idStudent" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -518,11 +420,11 @@
                 <ScalarProperty Name="firstName" ColumnName="firstName" />
                 <ScalarProperty Name="lastName" ColumnName="lastName" />
                 <ScalarProperty Name="ssn" ColumnName="ssn" />
+                <ScalarProperty Name="isExmatriculated" ColumnName="isExmatriculated" />
                 <ScalarProperty Name="idCampus" ColumnName="idCampus" />
                 <ScalarProperty Name="idRoom" ColumnName="idRoom" />
                 <ScalarProperty Name="idType" ColumnName="idType" />
                 <ScalarProperty Name="idUni" ColumnName="idUni" />
-                <ScalarProperty Name="idUser" ColumnName="idUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -537,24 +439,6 @@
           <EntitySetMapping Name="Universities">
             <EntityTypeMapping TypeName="CampusDbModel.University">
               <MappingFragment StoreEntitySet="University">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="CampusDbModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="idRole" ColumnName="idRole" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserRoles">
-            <EntityTypeMapping TypeName="CampusDbModel.UserRole">
-              <MappingFragment StoreEntitySet="UserRole">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>

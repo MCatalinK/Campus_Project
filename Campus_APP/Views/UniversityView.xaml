@@ -1,10 +1,9 @@
-﻿<Window x:Class="Campus_APP.Views.AdminViews.UniversityView"
+﻿<Window x:Class="Campus_APP.Views.UniversityView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Campus_APP.ViewModels"
-        xmlns:back="clr-namespace:Campus_APP.ViewModels.UXViewModels"
         
         mc:Ignorable="d"
         Background="Coral"
@@ -45,6 +44,6 @@
                 Command="{Binding UpdateCommand}" CommandParameter="{Binding ElementName=uniGrid,Path=SelectedItem,UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button Grid.Row="4" Grid.Column="2" Content="Back" HorizontalAlignment="Right" VerticalAlignment="Center" Width="75" Height="40" Margin="0,0,20,0"
-                Command="{x:Static back:LoginVM.CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Window}}}"/>
+                Command="{x:Static local:UniversityVM.CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Window}}}"/>
     </Grid>
 </Window>

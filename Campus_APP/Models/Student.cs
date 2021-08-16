@@ -24,11 +24,11 @@ namespace Campus_APP.Models
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string ssn { get; set; }
+        public bool isExmatriculated { get; set; }
         public int idCampus { get; set; }
-        public int idRoom { get; set; }
+        public Nullable<int> idRoom { get; set; }
         public int idType { get; set; }
         public int idUni { get; set; }
-        public int idUser { get; set; }
     
         public virtual Campu Campu { get; set; }
         public virtual CampusRoom CampusRoom { get; set; }
@@ -36,6 +36,5 @@ namespace Campus_APP.Models
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual StudentType StudentType { get; set; }
         public virtual University University { get; set; }
-        public virtual User User { get; set; }
     }
 }

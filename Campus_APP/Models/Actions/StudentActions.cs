@@ -10,6 +10,7 @@ namespace Campus_APP.Models.Actions
     {
         private readonly CampusDbEntities _ctx = new CampusDbEntities();
         private readonly StudentVM _studCtx;
+        private readonly RoomActions _roomAct = new RoomActions(null);
 
         public StudentActions(StudentVM studCtx)
         {
@@ -24,35 +25,42 @@ namespace Campus_APP.Models.Actions
                 MessageBox.Show("No object identified!");
                 return;
             }
-            var user = new User()
+
+            if (tmp.FirstName.Any(char.IsDigit) || tmp.LastName.Any(char.IsDigit))
             {
-                username = tmp.FirstName + tmp.LastName,
-                password = tmp.SSN,
-                idRole=2
-            };
-            _ctx.Users.Add(user);
-            _ctx.SaveChanges();
-            var stud = _ctx.Users.Where(p => p.username == user.username && p.password == user.password).FirstOrDefault();
-            if(stud is null)
+                MessageBox.Show("The name can't contain numbers!");
+                return;
+            }
+            string firstName = char.ToUpper(tmp.FirstName.First()) + tmp.FirstName.Substring(1).ToLower();
+            string lastName = char.ToUpper(tmp.LastName.First()) + tmp.LastName.Substring(1).ToLower();
+            if(GetStudentBySSN(tmp.SSN)!=null)
             {
-                MessageBox.Show("No student found!");
+                MessageBox.Show("There is already a student with this SSN in the database!");
                 return;
             }
 
+            /*
+            if(tmp.SSN.Length!=13 && tmp.SSN.Any(char.IsLetter))
+            {
+                MessageBox.Show("The Social Security Number must be 13 characters long and must be entirely numeric!");
+                return;
+            }*/
+
             _ctx.Students.Add(new Student()
             {
-                firstName=tmp.FirstName,
-                lastName=tmp.LastName,
+                firstName=firstName,
+                lastName=lastName,
                 ssn=tmp.SSN,
+                isExmatriculated=false,
                 idType=tmp.IdType,
                 idUni=tmp.IdUni,
                 idCampus=tmp.IdCampus,
                 idRoom=tmp.IdRoom,
-                idUser=stud.id
             }
             );
             var room = _ctx.CampusRooms.Where(p => p.id == tmp.IdRoom).FirstOrDefault();
             room.isOccupied = true;
+            _studCtx.AllRooms = _roomAct.GetRoomsAvailableForCampus(tmp.IdCampus);
             _ctx.SaveChanges();
             _studCtx.AllStudents = AllStudents();
         }
@@ -73,11 +81,10 @@ namespace Campus_APP.Models.Actions
             }
             var room = _ctx.CampusRooms.Where(p => p.id == student.idRoom).FirstOrDefault();
             room.isOccupied = false;
-            var user = _ctx.Users.Where(p => p.id == student.idUser).FirstOrDefault();
-            _ctx.Users.Remove(user);
             _ctx.Students.Remove(student);
             _ctx.SaveChanges();
             _studCtx.AllStudents = AllStudents();
+            _studCtx.AllRooms = _roomAct.GetRoomsAvailableForCampus(tmp.IdCampus);
         }
 
         public void UpdateMethod(object obj)
@@ -94,14 +101,26 @@ namespace Campus_APP.Models.Actions
                 MessageBox.Show("No student identified!");
                 return;
             }
-
+            if (student.isExmatriculated is true && tmp.IdRoom != null)
+            {
+                MessageBox.Show("The Student is exmatriculated and can't be assigned a new room!");
+                return;
+            }
             student.firstName = tmp.FirstName;
             student.lastName = tmp.LastName;
             student.idType = tmp.IdType;
             student.idCampus = tmp.IdCampus;
+            if(student.idRoom!=tmp.IdRoom)
+            {
+                var prevRoom = _ctx.CampusRooms.Where(p => p.id == student.idRoom).FirstOrDefault();
+                var newRoom= _ctx.CampusRooms.Where(p => p.id == tmp.IdRoom).FirstOrDefault();
+                prevRoom.isOccupied = false;
+                newRoom.isOccupied = true;
+            }
             student.idRoom = tmp.IdRoom;
             _ctx.SaveChanges();
             _studCtx.AllStudents = AllStudents();
+            _studCtx.AllRooms = _roomAct.GetRoomsAvailableForCampus(tmp.IdCampus);
         }
 
         public ObservableCollection<StudentVM> AllStudents()
@@ -120,10 +139,52 @@ namespace Campus_APP.Models.Actions
                     IdUni = item.idUni,
                     IdCampus = item.idCampus,
                     IdRoom = item.idRoom,
-                    IdUser = item.idUser
+                    IsExmatriculated=item.isExmatriculated
                 });
             }
             return result;
+        }
+
+        public StudentVM GetStudentById(int id)
+        {
+            var item = _ctx.Students.Where(p => p.id == id).FirstOrDefault();
+            if (item is null)
+            {
+                MessageBox.Show("The student couldn't be found!");
+                return null;
+            }
+            return new StudentVM()
+            {
+                Id = item.id,
+                FirstName = item.firstName,
+                LastName = item.lastName,
+                SSN = item.ssn,
+                IdType = item.idType,
+                IdUni = item.idUni,
+                IdCampus = item.idCampus,
+                IdRoom = item.idRoom,
+                IsExmatriculated=item.isExmatriculated    
+            };
+        }
+        public StudentVM GetStudentBySSN(string ssn)
+        {
+            var item = _ctx.Students.Where(p => p.ssn == ssn).FirstOrDefault();
+            if (item is null)
+            {
+                return null;
+            }
+            return new StudentVM()
+            {
+                Id = item.id,
+                FirstName = item.firstName,
+                LastName = item.lastName,
+                SSN = item.ssn,
+                IdType = item.idType,
+                IdUni = item.idUni,
+                IdCampus = item.idCampus,
+                IdRoom = item.idRoom,
+                IsExmatriculated = item.isExmatriculated
+            };
         }
     }
 }
